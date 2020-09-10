@@ -22,6 +22,8 @@ async function run(): Promise<void> {
     };
     const sha = github.context.sha;
 
+    console.log(github.context);
+
     if (isCreation(inputs)) {
       core.debug(`Creating a new Run`);
       const id = await createRun(octokit, inputs.name, sha, ownership, inputs);
