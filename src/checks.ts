@@ -1,6 +1,7 @@
 import {GitHub} from '@actions/github/lib/utils';
 import * as core from '@actions/core';
 import * as Inputs from './namespaces/Inputs';
+import * as util from 'util';
 
 type Ownership = {
   owner: string;
@@ -68,6 +69,20 @@ export const createRun = async (
     started_at: formatDate(),
     ...unpackInputs(name, inputs),
   });
+  console.log(
+    util.inspect(
+      {
+        name,
+        sha,
+        ownership,
+        data,
+      },
+      {
+        depth: null,
+        colors: true,
+      },
+    ),
+  );
   return data.id;
 };
 
@@ -77,6 +92,18 @@ export const updateRun = async (
   ownership: Ownership,
   inputs: Inputs.Args,
 ): Promise<void> => {
+  console.log(
+    util.inspect(
+      {
+        id,
+        ownership,
+      },
+      {
+        depth: null,
+        colors: true,
+      },
+    ),
+  );
   const previous = await octokit.checks.get({
     ...ownership,
     check_run_id: id,
